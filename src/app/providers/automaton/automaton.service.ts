@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { State } from 'src/app/models/state';
+
+export interface Dimension {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +18,18 @@ export class AutomatonService {
 
   constructor(private http: HttpClient) {}
 
-  public getTest(): Observable<string> {
-    return this.http.get<string>(this.url, {
+  public getStates(): Observable<State[]> {
+    let filename = "/home/excilys/eclipse-workspace/deter-minimize/graphs/enorme_bordel.grv";
+    return this.http.put<State[]>(this.url + "open/", filename,  {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    });
+  }
+
+  public getMaxDimension(): Observable<Dimension> {
+    return this.http.get<Dimension>(this.url + "states/dimension/", {
       headers: {
         'Content-Type': 'application/json'
       }
