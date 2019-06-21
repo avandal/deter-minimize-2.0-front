@@ -19,7 +19,7 @@ export class AutomatonService {
   constructor(private http: HttpClient) {}
 
   public getStates(): Observable<State[]> {
-    let filename = "/home/excilys/eclipse-workspace/deter-minimize/graphs/enorme_bordel.grv";
+    let filename = "/home/excilys/eclipse-workspace/deter-minimize/graphs/graph3.grv";
     return this.http.put<State[]>(this.url + "open/", filename,  {
       headers: {
         'Content-Type': 'application/json',
