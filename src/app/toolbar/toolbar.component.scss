@@ -1,0 +1,13 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+.space-box {
+    flex: 1 1 auto;
+}
+
+.white-icon {
+    color: lightgray;
+}
+
+button:hover .white-icon {
+    color: white;
+}

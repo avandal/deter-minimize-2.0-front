@@ -1,39 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AutomatonService } from '../providers/automaton/automaton.service';
 import { State } from '../models/state';
 import { Link } from '../models/link';
-import { CONTEXT } from '@angular/core/src/render3/interfaces/view';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-automaton',
   templateUrl: './automaton.component.html',
   styleUrls: ['./automaton.component.scss']
 })
-export class AutomatonComponent implements OnInit {
+export class AutomatonComponent implements OnInit, OnChanges {
   private states: State[];
 
   private arrow_position = 3/5;
   private arrow_angle = 5/6;
   private arrow_size = 15;
 
+  @Input() automaton: string;
+
   constructor(private service: AutomatonService) {}
 
   ngOnInit() {
-    this.service.getStates().subscribe((states: State[]) => {
-      console.log(states);
-      this.initializeStates(states);
-      this.initialize_canvas();
-    });
+    this.initialize();
+  }
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['automaton']) {
+      this.initialize();
+    }
   }
 
-  private initializeStates(states: State[]) {
-    for (let state of states) {
-      state.rx = 20 + (state.name.length * 2.5);
-      state.ry = 20 + (state.name.length);
-    }
+  private initialize() {
+    this.service.open(this.automaton).subscribe((states: State[]) => {
+      for (let state of states) {
+        state.rx = 20 + (state.name.length * 2.5);
+        state.ry = 20 + (state.name.length);
+      }
 
-    this.states = states;
+      this.states = states;
+      this.initialize_canvas();
+    });
   }
 
   private initialize_canvas(): void {
@@ -84,6 +89,7 @@ export class AutomatonComponent implements OnInit {
 
   private draw_self_curve(context: CanvasRenderingContext2D, link: Link, circle_center: number, radius: number) {
     context.strokeStyle = "#FF0000";
+    context.beginPath();
     context.arc(link.source.x, circle_center, radius, 0, Math.PI * 2);
     context.stroke();
   }

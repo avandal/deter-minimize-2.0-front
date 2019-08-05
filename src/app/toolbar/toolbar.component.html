@@ -1,0 +1,9 @@
+<mat-toolbar color="primary">
+    <div class="open-file">
+        <button mat-icon-button color="primary" (click)="fileInput.click()"><mat-icon class="white-icon">folder</mat-icon></button>
+        <input hidden type="file" #fileInput (change)="open($event)" />
+    </div>
+    <span class="space-box"></span>
+    <span>Deter-mini(mi)ze 2.0</span>
+    <span class="space-box"></span>
+</mat-toolbar>

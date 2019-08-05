@@ -1,0 +1,6 @@
+1[x=200, y=200, initial=true, final=false];
+2[x=300, y=100, initial=false, final=false];
+3[x=300, y=300, initial=false, final=false];
+
+1 --{deter, _}[curve=50]--> 2;
+1 --{_}[curve=50]--> 3;
